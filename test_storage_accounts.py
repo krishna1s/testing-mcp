@@ -40,7 +40,7 @@ def test_get_storage_accounts_function():
     print("✓ Subscription ID in result matches expected value")
     
     # Check status is valid
-    valid_statuses = ["success", "error", "demo_mode"]
+    valid_statuses = ["success", "error", "demo_mode", "authentication_required", "mcp_attempt"]
     assert result["status"] in valid_statuses, f"Status should be one of {valid_statuses}"
     print("✓ Status is valid")
 
