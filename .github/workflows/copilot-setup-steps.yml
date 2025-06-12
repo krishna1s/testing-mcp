@@ -31,8 +31,9 @@ jobs:
 
       - name: Verify @azure/mcp is available
         run: |
-          if ! command -v @azure/mcp; then
-            echo "@azure/mcp is not available in PATH"
-            exit 1
-          fi
-          @azure/mcp --version
+          npx @azure/mcp --version
+
+      - name: Log @azure/mcp installed path
+        run: |
+          npm list -g --depth=0 | grep '@azure/mcp' || echo "@azure/mcp not found in global npm list"
+          npm root -g
