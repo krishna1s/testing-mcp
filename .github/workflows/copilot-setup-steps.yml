@@ -27,4 +27,4 @@ jobs:
           node-version: '20'
 
       - name: Install @azure/mcp (Linux) globally from tgz
-        run: npm install -g ./testing.tgz
+        run: npm install -g ./.build/testing.tgz
