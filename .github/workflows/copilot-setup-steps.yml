@@ -30,4 +30,9 @@ jobs:
         run: npm install -g ./.build/testing.tgz
 
       - name: Verify @azure/mcp is available
-        run: @azure/mcp --version
+        run: |
+          if ! command -v @azure/mcp; then
+            echo "@azure/mcp is not available in PATH"
+            exit 1
+          fi
+          @azure/mcp --version
