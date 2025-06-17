@@ -31,10 +31,10 @@ jobs:
           ls -l $AZURE_FEDERATED_TOKEN_FILE || echo "File not found"
           printenv | grep AZURE
 
-      # - name: Set up Node.js
-      #   uses: actions/setup-node@v4
-      #   with:
-      #     node-version: '20'
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
 
       # - name: Install @azure/mcp (Linux) globally from tgz
       #   run: npm install -g .build\\testing.tgz --verbose
@@ -76,3 +76,23 @@ jobs:
       #   run: |
       #     ls -l /tmp/github_oidc_token
       #     head -c 100 /tmp/github_oidc_token | base64
+
+      - name: Extract @azure/mcp package from tarball
+        run: |
+          tar -xzf .build/testing.tgz -C package --strip-components=1
+          echo "Extracted tarball contents:"
+          ls -l
+
+      - name: Change package name in package/package.json
+        run: |
+          sed -i 's/"name": ".*"/"name": "alt"/' package/package.json
+          echo "Changed package name to alt in package/package.json"
+
+      - name: Install alt from extracted package
+        run: npm install -g ./package --verbose
+
+      - name: Verify alt is installed
+        run: |
+          npm list -g --depth=0 | grep 'alt' || echo "alt not found in global npm list"
+          npm root -g
+          npx alt --version
