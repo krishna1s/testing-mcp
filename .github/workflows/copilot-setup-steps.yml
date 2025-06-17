@@ -77,6 +77,9 @@ jobs:
       #     ls -l /tmp/github_oidc_token
       #     head -c 100 /tmp/github_oidc_token | base64
 
+      - name: Create package directory
+        run: mkdir -p package
+
       - name: Extract @azure/mcp package from tarball
         run: |
           tar -xzf ./.build/testing.tgz -C package --strip-components=1
