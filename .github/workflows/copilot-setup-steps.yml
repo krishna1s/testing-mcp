@@ -86,18 +86,6 @@ jobs:
           echo "Extracted tarball contents:"
           ls -l
 
-      - name: Change package name and bin in package/package.json
-        run: |
-          sudo apt-get update && sudo apt-get install -y jq
-          jq '.name = "alt" | .bin = {"alt": "index.js"}' package/package.json > package/package.tmp.json && mv package/package.tmp.json package/package.json
-          cat package/package.json
-          echo "Changed package name to alt and bin to alt in package/package.json"
-
-      - name: Change CLI bin name in package/package.json
-        run: |
-          sed -i 's/"bin": {[^}]*}/"bin": { "alt": "index.js" }/' package/package.json
-          echo "Changed CLI bin to 'alt' in package/package.json"
-
       - name: Ensure index.js is executable
         run: chmod +x package/index.js
         shell: bash
@@ -108,7 +96,6 @@ jobs:
 
       - name: Verify alt is installed
         run: |
-          npm list -g --depth=0 | grep 'alt' || echo "alt not found in global npm list"
+          npm list -g --depth=0 | grep 'mcp' || echo "mcp not found in global npm list"
           npm root -g
-          # Use --no for npx to avoid hanging on missing prompt
-          npx --no alt --version || echo "npx alt failed"
+          npx --no azmcp-linux-x64 --version || echo "npx mcp failed"
