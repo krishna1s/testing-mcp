@@ -21,19 +21,30 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           allow-no-subscriptions: true
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
+      # - name: Set up Node.js
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: '20'
 
-      - name: Install @azure/mcp (Linux) globally from tgz
-        run: npm install -g .build/testing.tgz --verbose
+      # - name: Install @azure/mcp (Linux) globally from tgz
+      #   run: npm install -g .build/testing.tgz --verbose
 
-      - name: Verify @azure/mcp is available
+      # - name: Log @azure/mcp installed path
+      #   run: |
+      #     npm list -g --depth=0 | grep '@azure/mcp' || echo "@azure/mcp not found in global npm list"
+      #     npm root -g
+      
+      # - name: Verify @azure/mcp is available
+      #   run: |
+      #     npx @azure/mcp --version
+      
+      - name: Generate Azure Load Testing Data Plane Access Token
+        id: get_token
         run: |
-          npx @azure/mcp --version
-
-      - name: Log @azure/mcp installed path
-        run: |
-          npm list -g --depth=0 | grep '@azure/mcp' || echo "@azure/mcp not found in global npm list"
-          npm root -g
+          ACCESS_TOKEN=$(az account get-access-token --resource https://loadtest.azure.net --query accessToken -o tsv)
+          if [ -z "$ACCESS_TOKEN" ]; then
+            echo "Failed to get access token"
+            exit 1
+          fi
+          echo "::add-mask::$ACCESS_TOKEN"
+          echo "AZURE_MCP_STATIC_TOKEN=$ACCESS_TOKEN" >> $GITHUB_ENV
