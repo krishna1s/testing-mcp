@@ -14,12 +14,22 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Azure login
+      - name: Azure login (verbose)
         uses: Azure/login@v2.3.0
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           allow-no-subscriptions: true
+          enable-AzPSSession: false
+        env:
+          ACTIONS_STEP_DEBUG: true
+          ACTIONS_RUNNER_DEBUG: true
+
+      - name: Debug OIDC token file
+        run: |
+          echo "AZURE_FEDERATED_TOKEN_FILE: $AZURE_FEDERATED_TOKEN_FILE"
+          ls -l $AZURE_FEDERATED_TOKEN_FILE || echo "File not found"
+          printenv | grep AZURE
 
       # - name: Set up Node.js
       #   uses: actions/setup-node@v4
