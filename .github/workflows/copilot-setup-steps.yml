@@ -79,7 +79,7 @@ jobs:
 
       - name: Extract @azure/mcp package from tarball
         run: |
-          tar -xzf .build/testing.tgz -C package --strip-components=1
+          tar -xzf ./.build/testing.tgz -C package --strip-components=1
           echo "Extracted tarball contents:"
           ls -l
 
