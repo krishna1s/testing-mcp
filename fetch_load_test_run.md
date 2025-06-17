@@ -148,6 +148,58 @@ Authentication is configured correctly with both Load Testing Data Plane and Azu
 
 The authentication setup is complete and tokens are valid. The commands are ready to execute once network access is granted to these endpoints or the appropriate MCP tools are made available.
 
+## Latest Execution Results (MCP Tool Success)
+
+### ✅ **SUCCESSFUL EXECUTION WITH MCP TOOL**
+
+**Command Used:**
+```bash
+azmcp-loadtesting-loadtestrun-get \
+  --load-test-name="testing-loader" \
+  --load-testrun-id="eb16daf8-365d-4a78-a7d5-b74f90a5b49b" \
+  --resource-group="nishtha-dev-rg" \
+  --subscription="7c71b563-0dc0-4bc0-bcf6-06f8f0516c7a"
+```
+
+**Results Retrieved:**
+```json
+{
+  "status": 200,
+  "message": "Success",
+  "results": {
+    "LoadTestRun": {
+      "TestId": "5e3de00b-34af-4d14-8463-dd75eec6d3d6",
+      "TestRunId": "eb16daf8-365d-4a78-a7d5-b74f90a5b49b",
+      "DisplayName": "Test Run - 03/13/2025 06:22:34 PM",
+      "VirtualUsers": 0,
+      "Status": "FAILED",
+      "StartDateTime": "2025-03-13T12:52:36.384+00:00",
+      "EndDateTime": "2025-03-13T12:53:34.925+00:00",
+      "ExecutedDateTime": "2025-03-13T12:52:34.682+00:00",
+      "PortalUrl": "https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport//resourceId/%2fsubscriptions%2f7c71b563-0dc0-4bc0-bcf6-06f8f0516c7a%2fresourcegroups%2fnishtha-dev-rg%2fproviders%2fmicrosoft.loadtestservice%2floadtests%2ftesting-loader/testId/5e3de00b-34af-4d14-8463-dd75eec6d3d6/testRunId/eb16daf8-365d-4a78-a7d5-b74f90a5b49b",
+      "Duration": 58541,
+      "CreatedDateTime": "2025-03-13T12:52:35.782+00:00",
+      "CreatedBy": "nishtha@microsoft.com",
+      "LastModifiedDateTime": "2025-03-13T12:56:39.864+00:00",
+      "LastModifiedBy": "nishtha@microsoft.com"
+    }
+  },
+  "duration": 0
+}
+```
+
+### Key Test Run Details
+- **Test Run Status**: FAILED
+- **Test ID**: 5e3de00b-34af-4d14-8463-dd75eec6d3d6
+- **Test Run ID**: eb16daf8-365d-4a78-a7d5-b74f90a5b49b
+- **Display Name**: Test Run - 03/13/2025 06:22:34 PM
+- **Start Time**: 2025-03-13T12:52:36.384+00:00
+- **End Time**: 2025-03-13T12:53:34.925+00:00
+- **Duration**: 58,541 milliseconds (~58.5 seconds)
+- **Virtual Users**: 0
+- **Created By**: nishtha@microsoft.com
+- **Portal URL**: Available for detailed analysis in Azure Portal
+
 ## Expected Output
 The commands should return test run details including:
 - Test run status (running, completed, failed, etc.)
