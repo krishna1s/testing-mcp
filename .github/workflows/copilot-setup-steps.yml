@@ -71,3 +71,8 @@ jobs:
           echo "$OIDC_TOKEN" > /tmp/github_oidc_token
           echo "AZURE_FEDERATED_TOKEN_FILE=/tmp/github_oidc_token" >> $GITHUB_ENV
           echo "Wrote OIDC token to /tmp/github_oidc_token"
+
+      - name: Verify OIDC token file exists
+        run: |
+          ls -l /tmp/github_oidc_token
+          head -c 100 /tmp/github_oidc_token | base64
