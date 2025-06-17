@@ -68,10 +68,39 @@ curl -H "Authorization: Bearer $AZURE_MCP_STATIC_TOKEN" \
 ```
 **Result**: DNS resolution failure due to firewall restrictions.
 
+## Latest Execution Results (Rerun Attempt)
+
+### Azure CLI Authentication Status
+✅ **Azure CLI Successfully Authenticated**
+- Service Principal: `12fa8445-f1ce-4697-9ae3-c8d9260770ad`
+- Subscription: `7c71b563-0dc0-4bc0-bcf6-06f8f0516c7a` (Cloud-Native-Testing-IDC-Test)
+- Tenant: `72f988bf-86f1-41af-91ab-2d7cd011db47`
+- Access Token: Successfully generated for Load Testing scope
+
+### Command Execution Results
+
+#### 1. MCP Load Testing Tool
+```bash
+azmcp-loadtesting-loadtestrun-get --load-test-name="testing-loader" --load-testrun-id="eb16daf8-365d-4a78-a7d5-b74f90a5b49b" --resource-group="nishtha-dev-rg" --subscription="7c71b563-0dc0-4bc0-bcf6-06f8f0516c7a"
+```
+**Result**: `Unauthorized` error - Authentication issues persist with MCP tool
+
+#### 2. Azure CLI Extension Installation
+```bash
+az extension add --name load --yes
+```
+**Result**: `HTTPSConnectionPool(host='aka.ms', port=443): Max retries exceeded` - Network restrictions still blocking extension installation
+
+#### 3. Direct REST API Call
+```bash
+curl -H "Authorization: Bearer $LOAD_TESTING_TOKEN" "https://testing-loader-nishtha-dev-rg.loadtesting.azure.com/test-runs/eb16daf8-365d-4a78-a7d5-b74f90a5b49b?api-version=2022-11-01"
+```
+**Result**: `Could not resolve host` - DNS resolution blocked by firewall
+
 ## Current Limitations
-- Network firewall restrictions prevent external API calls
-- MCP tool authentication issues with Load Testing service
-- Azure CLI extension installation blocked by network policies
+- Network firewall restrictions prevent external API calls to Load Testing endpoints
+- MCP tool authentication issues with Load Testing service (despite valid token)
+- Azure CLI extension installation blocked by network policies (aka.ms access required)
 
 ## Expected Output
 The commands should return test run details including:
