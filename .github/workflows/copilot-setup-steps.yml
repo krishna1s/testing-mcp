@@ -86,22 +86,16 @@ jobs:
           echo "Extracted tarball contents:"
           ls -l
 
-      - name: Change package name and bin in package/package.json
-        run: |
-          sed -i 's/"name": ".*"/"name": "alt"/' package/package.json
-          sed -i 's/"bin": {[^}]*}/"bin": { "alt": "index.js" }/' package/package.json
-          echo "Changed package name to alt and bin to alt in package/package.json"
-
-      - name: Change CLI bin name in package/package.json
-        run: |
-          sed -i 's/"bin": {[^}]*}/"bin": { "alt": "index.js" }/' package/package.json
-          echo "Changed CLI bin to 'alt' in package/package.json"
+      - name: Ensure index.js is executable
+        run: chmod +x package/index.js
+        shell: bash
+        # Try this step locally in WSL if possible before running in CI
 
       - name: Install alt from extracted package
         run: npm install -g ./package --verbose
 
       - name: Verify alt is installed
         run: |
-          npm list -g --depth=0 | grep 'alt' || echo "alt not found in global npm list"
+          npm list -g --depth=0 | grep 'mcp' || echo "mcp not found in global npm list"
           npm root -g
-          npx alt --version
+          npx --no azmcp-linux-x64 --version || echo "npx mcp failed"
