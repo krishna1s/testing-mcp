@@ -99,3 +99,27 @@ jobs:
           npm list -g --depth=0 | grep 'mcp' || echo "mcp not found in global npm list"
           npm root -g
           npx --no azmcp-linux-x64 --version || echo "npx mcp failed"
+
+      - name: Install Playwright MCP (Official)
+        run: |
+          echo "Installing official Playwright MCP..."
+          npm install -g @playwright/mcp --verbose
+
+      - name: Install Playwright and browsers
+        run: |
+          echo "Installing Playwright..."
+          npm install -g playwright --verbose
+          echo "Installing Playwright browsers..."
+          npx playwright install --with-deps
+
+      - name: Verify Playwright MCP installation
+        run: |
+          echo "Verifying Playwright MCP installation..."
+          npm list -g --depth=0 | grep playwright || echo "Playwright packages not found in global npm list"
+          echo "Checking Playwright browser installation..."
+          npx playwright --version || echo "Playwright CLI not available"
+          
+      - name: Test Playwright MCP server
+        run: |
+          echo "Testing Playwright MCP server startup..."
+          timeout 10s npx @playwright/mcp || echo "Playwright MCP server test completed"
