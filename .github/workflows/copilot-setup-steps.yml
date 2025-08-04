@@ -119,7 +119,14 @@ jobs:
           echo "Checking Playwright browser installation..."
           npx playwright --version || echo "Playwright CLI not available"
           
-      - name: Test Playwright MCP server
+      - name: Start Playwright MCP server
         run: |
-          echo "Testing Playwright MCP server startup..."
-          timeout 10s npx @playwright/mcp || echo "Playwright MCP server test completed"
+          echo "Starting Playwright MCP server on port 8931..."
+          npx @playwright/mcp@latest --port 8931 &
+          sleep 5
+          echo "Playwright MCP server started in background"
+          
+      - name: Test Playwright MCP server connection
+        run: |
+          echo "Testing Playwright MCP server connection..."
+          curl -f http://localhost:8931 || echo "MCP server connection test completed"
