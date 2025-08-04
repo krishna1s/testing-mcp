@@ -1,0 +1,28 @@
+{
+  "azure_config": {
+    "subscription_id": "7c71b563-0dc0-4bc0-bcf6-06f8f0516c7a",
+    "tenant_id": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+    "description": "Configuration for Azure Load Testing MCP demo",
+    "purpose": "Get load tests for specified subscription and tenant"
+  },
+  "load_testing": {
+    "service_name": "Azure Load Testing",
+    "resource_type": "Microsoft.LoadTestService/loadTests",
+    "api_version": "2022-12-01"
+  },
+  "mcp_commands": {
+    "list_load_tests": "azmcp-loadtesting-loadtest-list",
+    "required_parameters": [
+      "subscription",
+      "tenant"
+    ],
+    "optional_parameters": [
+      "auth-method",
+      "retry-delay",
+      "retry-max-delay",
+      "retry-max-retries",
+      "retry-mode",
+      "retry-network-timeout"
+    ]
+  }
+}
